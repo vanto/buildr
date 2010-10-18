@@ -75,6 +75,39 @@ describe Artifact do
     @classified.pom.to_hash.should == @classified.to_hash.merge(:type=>:pom).except(:classifier)
   end
 
+  it 'should have a XML representation of its POM' do
+    @artifact.pom_xml.should == <<-XML
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.example</groupId>
+  <artifactId>library</artifactId>
+  <version>2.0</version>
+</project>
+XML
+  end
+
+  it 'should have its dependencies listed in its XML POM' do
+    a = artifact(@spec)
+    a.dependencies = [artifact('com.example:lib:jar:2.0')]
+    a.pom_xml.should == <<-XML
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.example</groupId>
+  <artifactId>library</artifactId>
+  <version>2.0</version>
+  <dependencies>
+    <dependency>
+      <groupId>com.example</groupId>
+      <artifactId>lib</artifactId>
+      <version>2.0</version>
+    </dependency>
+  </dependencies>
+</project>
+XML
+  end
+  
   it 'should have associated sources artifact' do
     @artifact.sources_artifact.to_hash.should == @artifact.to_hash.merge(:classifier=>'sources')
   end
