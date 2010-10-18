@@ -183,7 +183,7 @@ module Buildr
                 pom_filename = Util.replace_extension(self.name, 'pom')
                 spec = {:group=>group, :id=>id, :version=>version, :type=>:pom}
                 @pom = Buildr.artifact(spec, pom_filename)
-                @pom.content @pom.pom_xml
+                @pom.content pom_xml
               end
               @pom
             end
