@@ -175,7 +175,8 @@ module Buildr
           # Make it an artifact using the specifications, and tell it how to create a POM.
           package.extend ActsAsArtifact
           package.send :apply_spec, spec.only(*Artifact::ARTIFACT_ATTRIBUTES)
-
+          # This is a hack!
+          package.dependencies = compile.dependencies
           # Create pom associated with package
           class << package
             def pom
